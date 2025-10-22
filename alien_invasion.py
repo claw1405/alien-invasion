@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullets import Bullet
+from alien import Alien
 
 class AlienInvasion :
     """Overall class to manage game assets and behavior"""
@@ -20,6 +21,16 @@ class AlienInvasion :
         
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
+
+    def _create_fleet(self):
+        """Create the fleet of aliens"""
+        #Make an email.
+        # Make a single alien for now.
+        alien = Alien(self)
+        self.aliens.add(alien)
 
     def make_fullscreen(self):
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -37,7 +48,7 @@ class AlienInvasion :
             self._update_screen() #update screen with bg colour
             self.ship.update()
             self._update_bullets()
-            
+
             #Determine the frame rate for the game in this case 60 the loop will
             #ideally run 60 times per second.
             self.clock.tick(60)
@@ -98,7 +109,8 @@ class AlienInvasion :
                 bullet.draw_bullet()
 
             self.ship.blitme()
-                
+            self.aliens.draw(self.screen) 
+
             #make the most recently drawn screen visible.
             pygame.display.flip()
 
