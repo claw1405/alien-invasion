@@ -23,21 +23,26 @@ class AlienInvasion :
     def run_game(self):
         """Start the main loop for the game"""
         while True :
-            #watch for KB and mouse events
+            self._check_events()
+            self._update_screen()
+
+            #Determine the frame rate for the game in this case 60 the loop will
+            #ideally run 60 times per second.
+            self.clock.tick(60)
+
+    def _check_events(self):
+         #watch for KB and mouse events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
 
-            # Redraw the screen during each pass through the loop.
+    def _update_screen(self):
+          # Redraw the screen during each pass through the loop.
             self.screen.fill(self.settings.bg_colour)
             self.ship.blitme()
                 
             #make the most recently drawn screen visible.
             pygame.display.flip()
-
-            #Determine the frame rate for the game in this case 60 the loop will
-            #ideally run 60 times per second.
-            self.clock.tick(60)
 
 if __name__ == '__main__':
     #Make a game instance and run the game
