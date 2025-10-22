@@ -15,8 +15,7 @@ class AlienInvasion :
 
         self.settings = Settings() #Call settings module
 
-        self.screen = pygame.display.set_mode(
-            (self.settings.screen_width, self.settings.screen_height))
+        self.windowed_mode()
         
         self.ship = Ship(self)
 
@@ -24,6 +23,10 @@ class AlienInvasion :
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
+    
+    def windowed_mode(self):
+         self.screen = pygame.display.set_mode(
+            (self.settings.screen_width, self.settings.screen_height))
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -57,6 +60,8 @@ class AlienInvasion :
              sys.exit()
         elif event.key == pygame.K_f:
              self.make_fullscreen()
+        elif event.key == pygame.K_ESCAPE:
+             self.windowed_mode()
     
     def _check_keyup_events(self, event):
         """Respond to key presses"""
