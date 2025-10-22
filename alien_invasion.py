@@ -2,6 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
+from bullets import Bullet
 
 class AlienInvasion :
     """Overall class to manage game assets and behavior"""
@@ -18,6 +19,7 @@ class AlienInvasion :
         self.windowed_mode()
         
         self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
 
     def make_fullscreen(self):
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -34,6 +36,7 @@ class AlienInvasion :
             self._check_events() #Check for new events
             self._update_screen() #update screen with bg colour
             self.ship.update()
+            self.bullets.update()
 
             #Determine the frame rate for the game in this case 60 the loop will
             #ideally run 60 times per second.
@@ -62,6 +65,8 @@ class AlienInvasion :
              self.make_fullscreen()
         elif event.key == pygame.K_ESCAPE:
              self.windowed_mode()
+        elif event.key == pygame.K_SPACE:
+             self._fire_bullet()
     
     def _check_keyup_events(self, event):
         """Respond to key presses"""
@@ -70,9 +75,17 @@ class AlienInvasion :
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
+    def _fire_bullet(self):
+        """Create a new bullet and add it to the bullets group"""
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
+
     def _update_screen(self):
           # Redraw the screen during each pass through the loop.
             self.screen.fill(self.settings.bg_colour)
+            for bullet in self.bullets.sprites():
+                bullet.draw_bullet()
+
             self.ship.blitme()
                 
             #make the most recently drawn screen visible.
