@@ -38,6 +38,12 @@ class AlienInvasion :
             self.ship.update()
             self.bullets.update()
 
+            #Get rid of bullets that have disappeared off screen
+            for bullet in self.bullets.copy():
+                 if bullet.rect.bottom <= 0:
+                      self.bullets.remove(bullet)
+            print(len(self.bullets))
+
             #Determine the frame rate for the game in this case 60 the loop will
             #ideally run 60 times per second.
             self.clock.tick(60)
