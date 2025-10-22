@@ -42,7 +42,6 @@ class AlienInvasion :
             for bullet in self.bullets.copy():
                  if bullet.rect.bottom <= 0:
                       self.bullets.remove(bullet)
-            print(len(self.bullets))
 
             #Determine the frame rate for the game in this case 60 the loop will
             #ideally run 60 times per second.
@@ -83,8 +82,9 @@ class AlienInvasion :
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
     def _update_screen(self):
           # Redraw the screen during each pass through the loop.
