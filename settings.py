@@ -7,5 +7,11 @@ class Settings :
         self.screen_height = 800
         self.bg_colour = (25, 25, 112)
 
+        #set the bullets attributes
+        self.bullet_speed = 2.0
+        self.bullet_width = 3
+        self.bullet_height = 15
+        self.bullet_colour = (60, 60, 60)
+
         #set the spaceships speed
         self.ship_speed = 1.5
