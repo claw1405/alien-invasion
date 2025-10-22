@@ -27,10 +27,22 @@ class AlienInvasion :
 
     def _create_fleet(self):
         """Create the fleet of aliens"""
-        #Make an email.
-        # Make a single alien for now.
+        # Make an alien and then keep adding aliens until we run out of space
+        # Spacing between aliens is equal to one alien width
         alien = Alien(self)
-        self.aliens.add(alien)
+        alien_width = alien.rect.width
+
+        current_x = alien_width
+        while current_x < (self.settings.screen_width - 2 * alien_width):
+           self._create_alien(current_x)
+           current_x += 2 * alien_width
+
+    def _create_alien(self, x_position):
+           new_alien = Alien(self)
+           new_alien.x = x_position
+           new_alien.rect.x = x_position
+           self.aliens.add(new_alien)
+             
 
     def make_fullscreen(self):
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
