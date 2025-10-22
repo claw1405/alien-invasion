@@ -18,6 +18,8 @@ class Ship():
 
         #Start each new ship at the bottom center of the screen.
         self.rect.midbottom = self.screen_rect.midbottom
+        self.rect.y -= 15  # move the ship 15 pixels up
+
 
     def blitme(self):
         """Draw the ship at it's current location"""

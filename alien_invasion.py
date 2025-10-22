@@ -23,8 +23,8 @@ class AlienInvasion :
     def run_game(self):
         """Start the main loop for the game"""
         while True :
-            self._check_events()
-            self._update_screen()
+            self._check_events() #Check for new events
+            self._update_screen() #update screen with bg colour
 
             #Determine the frame rate for the game in this case 60 the loop will
             #ideally run 60 times per second.
