@@ -68,6 +68,7 @@ class AlienInvasion :
             self._update_screen() #update screen with bg colour
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
 
             #Determine the frame rate for the game in this case 60 the loop will
             #ideally run 60 times per second.
@@ -121,6 +122,10 @@ class AlienInvasion :
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+    def _update_aliens(self):
+         """Update the position of all aliens in the fleet"""
+         self.aliens.update()
 
     def _update_screen(self):
           # Redraw the screen during each pass through the loop.
