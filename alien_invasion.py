@@ -15,6 +15,7 @@ class AlienInvasion:
     def __init__(self):
         """Initialize the game and create resources."""
         pygame.init()
+        pygame.mixer.init() # Initialize pygames sound mixer
 
         self.clock = pygame.time.Clock()
         self.settings = Settings()
@@ -23,6 +24,10 @@ class AlienInvasion:
         self.windowed_mode()
 
         self.menu = Menu(self)
+
+        # -- Load sounds --
+        self.sound_shoot = pygame.mixer.Sound("sounds/shoot.wav")
+        self.button_click = pygame.mixer.Sound("sounds/click.wav")
 
         # Game state and assets
         self.stats = GameStats(self)
@@ -185,6 +190,7 @@ class AlienInvasion:
         """Create a new bullet if limit not reached."""
         if len(self.bullets) < self.settings.bullets_allowed:
             self.bullets.add(Bullet(self))
+            self.sound_shoot.play()
 
     def _update_bullets(self):
         """Update bullet positions and remove old bullets."""
