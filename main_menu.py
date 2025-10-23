@@ -17,6 +17,7 @@ class Menu:
         self.button_play = Button(ai_game, "Play")
         self.button_quit = Button(ai_game, "Quit")
         self.button_fullscreen = Button(ai_game, "Fullscreen")
+        self.mute_button = Button(ai_game, "Mute")
 
         # Position the buttons neatly
         self._position_menu_buttons()
@@ -38,9 +39,15 @@ class Menu:
             )
         self.button_fullscreen._prep_msg("Fullscreen")
 
+        self.mute_button.rect.center = (
+            self.screen_rect.centerx,
+            self.screen_rect.centery + spacing
+        )
+        self.mute_button._prep_msg("Mute")
+
         self.button_quit.rect.center = (
             self.screen_rect.centerx, 
-            self.screen_rect.centery + spacing
+            self.screen_rect.centery + 2*spacing
             )
         self.button_quit._prep_msg("Quit Game")
 
@@ -62,21 +69,30 @@ class Menu:
         # Draw Buttons
         self.button_play.draw_button()
         self.button_fullscreen.draw_button()
+        self.mute_button.draw_button()
         self.button_quit.draw_button()
 
     def check_button_click(self, mouse_pos):
         """Check if any button in the menu is clicked"""
 
         if self.button_play.rect.collidepoint(mouse_pos):
-            self.ai_game.button_click.play()
+            if not self.ai_game.is_muted:
+                self.ai_game.button_click.play()
             self.ai_game._start_game()
 
         elif self.button_fullscreen.rect.collidepoint(mouse_pos):
-            self.ai_game.button_click.play()
+            if not self.ai_game.is_muted:
+                self.ai_game.button_click.play()
             self.ai_game.make_fullscreen()
+        
+        elif self.mute_button.rect.collidepoint(mouse_pos):
+            if not self.ai_game.is_muted:
+                self.ai_game.button_click.play()
+            self.ai_game.toggle_mute()
 
         elif self.button_quit.rect.collidepoint(mouse_pos):
-            self.ai_game.button_click.play()
+            if not self.ai_game.is_muted:
+                self.ai_game.button_click.play()
             pygame.quit()
             raise SystemExit
 

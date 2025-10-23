@@ -48,6 +48,22 @@ class AlienInvasion:
         # Start in inactive state
         self.game_active = False
         self.in_menu = True
+        self.is_muted = False
+
+    def toggle_mute(self):
+        """Toggle mute/unmute for all sounds"""
+        self.is_muted = not self.is_muted
+
+        if self.is_muted :
+            pygame.mixer.music.set_volume(0)
+            pygame.mixer.pause()
+        else :
+            pygame.mixer.music.set_volume(0.3) # Set your original preferred vol
+            pygame.mixer.unpause()
+
+        #update button text
+        new_label = "Unmute" if self.is_muted else "Mute"
+        self.menu.mute_button._prep_msg(new_label)
 
     # --- Display Modes ---
     def make_fullscreen(self):
@@ -173,7 +189,8 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
-        self.ship_destroyed.play() # Play sound when ship is hit
+        if not self.is_muted:
+            self.ship_destroyed.play() # Play sound when ship is hit
         if self.stats.ships_left > 0:
             # Decrement ships left and update scoreboard
             self.stats.ships_left -= 1
@@ -193,7 +210,8 @@ class AlienInvasion:
         """Create a new bullet if limit not reached."""
         if len(self.bullets) < self.settings.bullets_allowed:
             self.bullets.add(Bullet(self))
-            self.sound_shoot.play()
+            if not self.is_muted:
+                self.sound_shoot.play()
 
     def _update_bullets(self):
         """Update bullet positions and remove old bullets."""
@@ -221,8 +239,9 @@ class AlienInvasion:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
-            self.sb.check_high_score()
-            self.explosion.play()
+            self.sb.check_high_score() 
+            if not self.is_muted:
+                self.explosion.play()
 
     # --- Alien Logic ---
     def _create_fleet(self):
