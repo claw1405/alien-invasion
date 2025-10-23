@@ -79,6 +79,7 @@ class AlienInvasion :
             sleep(0.5) 
         else :
              self.game_active = False
+             pygame.mouse.set_visible(True)
 
     def make_fullscreen(self):
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -155,6 +156,9 @@ class AlienInvasion :
               # Create a new fleet and center the ship
               self._create_fleet()
               self.ship.center_ship()
+
+              # Hide the cursor when game is active
+              pygame.mouse.set_visible(False) 
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
