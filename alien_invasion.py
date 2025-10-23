@@ -7,6 +7,7 @@ from alien import Alien
 from game_stats import GameStats
 from button import Button
 from main_menu import Menu
+from scoreboard import Scoreboard
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -25,6 +26,7 @@ class AlienInvasion:
 
         # Game state and assets
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -253,6 +255,9 @@ class AlienInvasion:
     def _update_screen(self):
         """Redraw the screen on each loop iteration."""
         self.screen.fill(self.settings.bg_colour)
+
+        # Draw the score information
+        self.sb.show_score()
 
         # Draw bullets, ship, and aliens
         for bullet in self.bullets.sprites():
