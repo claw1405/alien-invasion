@@ -6,6 +6,7 @@ from bullets import Bullet
 from alien import Alien
 from game_stats import GameStats
 from button import Button
+from main_menu import Menu
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -13,11 +14,14 @@ class AlienInvasion:
     def __init__(self):
         """Initialize the game and create resources."""
         pygame.init()
+
         self.clock = pygame.time.Clock()
         self.settings = Settings()
 
         # Start in windowed mode
         self.windowed_mode()
+
+        self.menu = Menu(self)
 
         # Game state and assets
         self.stats = GameStats(self)
@@ -33,6 +37,7 @@ class AlienInvasion:
 
         # Start in inactive state
         self.game_active = False
+        self.in_menu = True
 
     # --- Display Modes ---
     def make_fullscreen(self):
@@ -53,12 +58,15 @@ class AlienInvasion:
         while True:
             self._check_events()
 
-            if self.game_active:
+            if self.in_menu:
+                self.menu.draw_menu()
+            elif not self.in_menu:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
+                self._update_screen()
 
-            self._update_screen()
+            pygame.display.flip()
             self.clock.tick(60)  # Limit to 60 FPS
 
     # --- Event Handling ---
@@ -67,13 +75,16 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                if self.in_menu:
+                    self.menu.check_button_click(mouse_pos)
+                elif not self.game_active:
+                    self._check_play_button(mouse_pos)
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                self._check_play_button(mouse_pos)
 
     def _check_keydown_events(self, event):
         """Respond to keypresses."""
@@ -88,7 +99,13 @@ class AlienInvasion:
         elif event.key == pygame.K_f:
             self.make_fullscreen()
         elif event.key == pygame.K_ESCAPE:
-            self.windowed_mode()
+            if self.game_active:
+                # Pause and return to the menu
+                self.in_menu = True
+                self.game_active = False
+                pygame.mouse.set_visible(True)
+            else: 
+                self.windowed_mode()
         elif event.key == pygame.K_p:
             self._start_game()
 
@@ -110,6 +127,7 @@ class AlienInvasion:
         """Start or restart the game."""
         self.stats.reset_stats()
         self.game_active = True
+        self.in_menu = False
 
         # Clear previous aliens and bullets
         self.bullets.empty()
@@ -133,6 +151,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.game_active = False
+            self.in_menu = True
             pygame.mouse.set_visible(True)
 
     # --- Bullet Logic ---
@@ -222,12 +241,6 @@ class AlienInvasion:
             bullet.draw_bullet()
         self.ship.blitme()
         self.aliens.draw(self.screen)
-
-        # Draw the Play button if the game is inactive
-        if not self.game_active:
-            self.button_play.draw_button()
-
-        pygame.display.flip()
 
 if __name__ == '__main__':
     ai = AlienInvasion()
