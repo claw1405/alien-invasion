@@ -29,6 +29,7 @@ class AlienInvasion:
         self.sound_shoot = pygame.mixer.Sound("sounds/shoot.wav")
         self.button_click = pygame.mixer.Sound("sounds/click.wav")
         self.explosion = pygame.mixer.Sound("sounds/explosion.wav")
+        self.ship_destroyed = pygame.mixer.Sound("sounds/destroyed.wav")
 
         # Game state and assets
         self.stats = GameStats(self)
@@ -172,6 +173,7 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
+        self.ship_destroyed.play() # Play sound when ship is hit
         if self.stats.ships_left > 0:
             # Decrement ships left and update scoreboard
             self.stats.ships_left -= 1
