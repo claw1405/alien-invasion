@@ -204,9 +204,9 @@ class AlienInvasion:
             self._create_fleet()
             self.settings.increase_speed()
 
-        # Increase level
-        self.stats.level += 1
-        self.sb.prep_level() 
+            # Increase level
+            self.stats.level += 1
+            self.sb.prep_level() 
 
         if collisions:
             for aliens in collisions.values():
