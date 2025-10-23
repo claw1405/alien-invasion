@@ -116,7 +116,17 @@ class AlienInvasion :
                      self._check_keyup_events(event)    
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                      mouse_pos = pygame.mouse.get_pos()
-                     self._check_play_button(mouse_pos)     
+                     self._start_game()
+
+    def _start_game(self):
+         if not self.game_active:
+              self.stats.reset_stats()
+              self.game_active = True
+              self.bullets.empty()
+              self.aliens.empty()
+              self._create_fleet()
+              self.ship.center_ship()
+              pygame.mouse.set_visible(False)  
 
     def _check_keydown_events(self, event):
         """Respond to key presses."""
@@ -133,6 +143,8 @@ class AlienInvasion :
              self.windowed_mode()
         elif event.key == pygame.K_SPACE:
              self._fire_bullet()
+        elif event.key == pygame.K_p:
+             self._start_game()
     
     def _check_keyup_events(self, event):
         """Respond to key presses"""
