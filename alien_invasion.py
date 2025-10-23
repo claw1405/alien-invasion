@@ -47,6 +47,9 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
 
+        #Rebuild menu as per new resolution
+        self.menu = Menu(self)
+
     def quit_game(self):
         sys.exit()
 
@@ -55,6 +58,8 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height)
         )
+        #Rebuild menu as per new resolution
+        self.menu = Menu(self)
 
     # --- Main Loop ---
     def run_game(self):
