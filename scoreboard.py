@@ -40,12 +40,12 @@ class Scoreboard:
         # Center the high score at the top of the screen
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx
-        self.high_score_image.top = self.score_rect.top
+        self.high_score_rect.top = self.score_rect.top
 
     def check_high_score(self):
         """Check to see if theres a new high score"""
         if self.stats.score > self.stats.high_score:
-            self.stats.high_Score = self.stats.score
+            self.stats.high_score = self.stats.score
             self.prep_high_score()
 
     def show_score(self):
