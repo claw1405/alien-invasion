@@ -134,6 +134,8 @@ class AlienInvasion:
         if button_clicked and not self.game_active:
             # Reset game settings
             self.settings.initialize_dynamic_settings()
+            self.stats.reset_stats()
+            self.sb.prep_score()
             self._start_game()
 
     def _check_quit_button(self, mouse_pos):
@@ -145,6 +147,7 @@ class AlienInvasion:
     def _start_game(self):
         """Start or restart the game."""
         self.stats.reset_stats()
+        self.sb.prep_score()
         self.game_active = True
         self.in_menu = False
 
@@ -196,6 +199,10 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+        if collisions:
+            self.stats.score += self.settings.alien_points
+            self.sb.prep_score()
 
     # --- Alien Logic ---
     def _create_fleet(self):
@@ -256,14 +263,14 @@ class AlienInvasion:
         """Redraw the screen on each loop iteration."""
         self.screen.fill(self.settings.bg_colour)
 
-        # Draw the score information
-        self.sb.show_score()
-
         # Draw bullets, ship, and aliens
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.ship.blitme()
         self.aliens.draw(self.screen)
+
+        # Draw the score information
+        self.sb.show_score()
 
 if __name__ == '__main__':
     ai = AlienInvasion()
