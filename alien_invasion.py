@@ -28,6 +28,9 @@ class AlienInvasion :
 
         self._create_fleet()
 
+        # Start Alien Invasion in an active state
+        self.game_active() = True
+
     def _create_fleet(self):
         """Create the fleet of aliens"""
         # Make an alien and then keep adding aliens until we run out of space
@@ -56,19 +59,22 @@ class AlienInvasion :
 
     def _ship_hit(self):
         """Respond to the ship being hit by alien"""
-        # Decrement ships_left
-        self.stats.ships_left -= 1
+        if self.stats.ships_left > 0:
+            # Decrement ships_left
+            self.stats.ships_left -= 1
 
-        # Get rid of any remaining bullets and aliens
-        self.bullets.empty()
-        self.aliens.empty()
+            # Get rid of any remaining bullets and aliens
+            self.bullets.empty()
+            self.aliens.empty()
 
-        # Create a new fleet and center the ship.
-        self._create_fleet()
-        self.ship.center_ship()
+            # Create a new fleet and center the ship.
+            self._create_fleet()
+            self.ship.center_ship()
 
-        # Pause
-        sleep(0.5) 
+            # Pause
+            sleep(0.5) 
+        else :
+             self.game_active = False
 
     def make_fullscreen(self):
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -83,11 +89,13 @@ class AlienInvasion :
         """Start the main loop for the game"""
         while True :
             self._check_events() #Check for new events
-            self._update_screen() #update screen with bg colour
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
 
+            if self.game_active:
+                self.ship.update( )
+                self._update_bullets()
+                self._update_aliens()
+
+            self._update_screen() #update screen with bg colour
             #Determine the frame rate for the game in this case 60 the loop will
             #ideally run 60 times per second.
             self.clock.tick(60)
