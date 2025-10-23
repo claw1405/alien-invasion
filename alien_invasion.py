@@ -141,8 +141,10 @@ class AlienInvasion :
             self.ship.moving_left = False
 
     def _check_play_button(self, mouse_pos):
-         """Start a new game when the user clicks play"""
-         if self.button_play.rect.collidepoint(mouse_pos):
+        """Start a new game when the user clicks play"""
+        button_clicked = self.button_play.rect.collidepoint(mouse_pos)
+
+        if button_clicked and not self.game_active:
               self.stats.reset_stats()
               self.game_active = True
 
