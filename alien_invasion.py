@@ -28,6 +28,7 @@ class AlienInvasion:
         # -- Load sounds --
         self.sound_shoot = pygame.mixer.Sound("sounds/shoot.wav")
         self.button_click = pygame.mixer.Sound("sounds/click.wav")
+        self.explosion = pygame.mixer.Sound("sounds/explosion.wav")
 
         # Game state and assets
         self.stats = GameStats(self)
@@ -219,6 +220,7 @@ class AlienInvasion:
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
             self.sb.check_high_score()
+            self.explosion.play()
 
     # --- Alien Logic ---
     def _create_fleet(self):
