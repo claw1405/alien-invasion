@@ -32,8 +32,9 @@ class AlienInvasion:
         # Make fleet of aliens
         self._create_fleet()
 
-        # Create Play button
+        # Create Buttons
         self.button_play = Button(self, "Play")
+        self.button_quit = Button(self, "Quit")
 
         # Start in inactive state
         self.game_active = False
@@ -45,6 +46,9 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
+
+    def quit_game(self):
+        sys.exit()
 
     def windowed_mode(self):
         """Switch to windowed mode."""
@@ -122,6 +126,12 @@ class AlienInvasion:
         button_clicked = self.button_play.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
             self._start_game()
+
+    def _check_quit_button(self, mouse_pos):
+        """Exit the application when a customer clicks the quit button"""
+        button_clicked = self.button_quit.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.game_active:
+            self.quit_game()
 
     def _start_game(self):
         """Start or restart the game."""
