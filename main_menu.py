@@ -1,4 +1,5 @@
 import pygame
+import os
 from button import Button
 
 class Menu:
@@ -49,9 +50,12 @@ class Menu:
         #Background colour
         self.screen.fill((25, 25, 60)) # Dark blue background
 
+        #font file path
+        font_path = os.path.join("fonts", "Orbitron-Regular.ttf")
+        title_font = pygame.font.Font(font_path, 90)
+
         # Title Text
-        font = pygame.font.SysFont('Arial', 90, bold=True)
-        title_text = font.render("ALIEN INVASION", True, (255, 255, 255))
+        title_text = title_font.render("ALIEN INVASION", True, (255, 255, 255))
         title_rect = title_text.get_rect(center=(self.screen_rect.centerx, 200))
         self.screen.blit(title_text, title_rect)
 
