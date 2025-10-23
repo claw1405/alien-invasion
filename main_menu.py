@@ -68,12 +68,15 @@ class Menu:
         """Check if any button in the menu is clicked"""
 
         if self.button_play.rect.collidepoint(mouse_pos):
+            self.ai_game.button_click.play()
             self.ai_game._start_game()
 
         elif self.button_fullscreen.rect.collidepoint(mouse_pos):
+            self.ai_game.button_click.play()
             self.ai_game.make_fullscreen()
 
         elif self.button_quit.rect.collidepoint(mouse_pos):
+            self.ai_game.button_click.play()
             pygame.quit()
             raise SystemExit
 
