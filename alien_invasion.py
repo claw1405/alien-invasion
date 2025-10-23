@@ -136,6 +136,8 @@ class AlienInvasion:
             self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()
             self._start_game()
 
     def _check_quit_button(self, mouse_pos):
@@ -165,7 +167,9 @@ class AlienInvasion:
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
         if self.stats.ships_left > 0:
+            # Decrement ships left and update scoreboard
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
             self.bullets.empty()
             self.aliens.empty()
             self._create_fleet()
@@ -199,6 +203,10 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+        # Increase level
+        self.stats.level += 1
+        self.sb.prep_level() 
 
         if collisions:
             for aliens in collisions.values():
