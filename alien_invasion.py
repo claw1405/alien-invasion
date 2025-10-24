@@ -8,6 +8,7 @@ from game_stats import GameStats
 from button import Button
 from main_menu import Menu
 from scoreboard import Scoreboard
+from game_over import GameOverScreen
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -24,6 +25,10 @@ class AlienInvasion:
         self.windowed_mode()
 
         self.menu = Menu(self)
+
+        #Initiate the game over screen
+        self.game_over_screen = GameOverScreen(self)
+        self.show_game_over = False
 
         # -- Load sounds --
         self.sound_shoot = pygame.mixer.Sound("sounds/shoot.wav")
@@ -94,7 +99,9 @@ class AlienInvasion:
 
             if self.in_menu:
                 self.menu.draw_menu()
-            elif not self.in_menu:
+            elif self.show_game_over:
+                self.game_over_screen.draw_game_over()
+            elif self.game_active:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
@@ -113,6 +120,8 @@ class AlienInvasion:
                 mouse_pos = pygame.mouse.get_pos()
                 if self.in_menu:
                     self.menu.check_button_click(mouse_pos)
+                elif self.show_game_over:
+                    self.game_over_screen.check_button_click(mouse_pos)
                 elif not self.game_active:
                     self._check_play_button(mouse_pos)
             elif event.type == pygame.KEYDOWN:
@@ -175,6 +184,7 @@ class AlienInvasion:
         self.sb.prep_score()
         self.game_active = True
         self.in_menu = False
+        self.show_game_over = False
 
         # Clear previous aliens and bullets
         self.bullets.empty()
@@ -202,7 +212,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.game_active = False
-            self.in_menu = True
+            self.show_game_over = True
             pygame.mouse.set_visible(True)
 
     # --- Bullet Logic ---
