@@ -82,17 +82,25 @@ class GameOverScreen:
         if self.button_play_again.rect.collidepoint(mouse_pos):
             if not self.ai_game.is_muted:
                 self.ai_game.button_click.play()
+            self._stop_sound()
             self.ai_game._start_game()
         
         elif self.button_main_menu.rect.collidepoint(mouse_pos):
             if not self.ai_game.is_muted:
                 self.ai_game.button_click.play()
+            self._stop_sound()
             self.ai_game.in_menu = True
 
         elif self.button_quit.rect.collidepoint(mouse_pos):
             if not self.ai_game.is_muted:
                 self.ai_game.button_click.play()
+            self._stop_sound()
             pygame.quit()
             raise SystemExit
+        
+    def _stop_sound(self):
+        """Stop the game over sound and reset the played flag."""
+        self.ai_game.game_over_sound.stop()
+        self.sound_played = False
 
 
