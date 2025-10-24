@@ -35,6 +35,7 @@ class AlienInvasion:
         self.button_click = pygame.mixer.Sound("sounds/click.wav")
         self.explosion = pygame.mixer.Sound("sounds/explosion.wav")
         self.ship_destroyed = pygame.mixer.Sound("sounds/destroyed.wav")
+        self.game_over_sound = pygame.mixer.Sound("sounds/game-over.wav")
 
         # Game state and assets
         self.stats = GameStats(self)

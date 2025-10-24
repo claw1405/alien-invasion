@@ -15,6 +15,8 @@ class GameOverScreen:
         self.button_main_menu = Button(ai_game, "Main Menu")
         self.button_quit = Button(ai_game, "Quit Game")
 
+        self.sound_played = False
+
         self._position_buttons()
 
     def _position_buttons(self):
@@ -45,6 +47,11 @@ class GameOverScreen:
     def draw_game_over(self):
         """Draw the game over screen"""
         self.screen.fill((20, 20, 40))
+
+        if not self.sound_played:
+            if not self.ai_game.is_muted:
+                self.ai_game.game_over_sound.play()
+            self.sound_played = True
 
         #Font setup
         font_path = os.path.join("fonts", "Orbitron-Regular.ttf")
