@@ -19,23 +19,26 @@ class GameOverScreen:
 
     def _position_buttons(self):
         """Position the buttons vertically on the screen"""
-        spacing = 80
+        spacing = 90
+
+        #Place buttons below score text
+        base_y = self.screen_rect.centery + 100
 
         self.button_play_again.rect.center = (
             self.screen_rect.centerx,
-            self.screen_rect.centery - spacing
+            base_y
         )
         self.button_play_again._prep_msg("Play Again")
 
         self.button_main_menu.rect.center = (
             self.screen_rect.centerx,
-            self.screen_rect.centery 
+            base_y + spacing
         )
         self.button_main_menu._prep_msg("Main Menu")
 
         self.button_quit.rect.center = (
             self.screen_rect.centerx,
-            self.screen_rect.centery + spacing
+            base_y + 2 * spacing
         )
         self.button_quit._prep_msg("Quit Game")
 
